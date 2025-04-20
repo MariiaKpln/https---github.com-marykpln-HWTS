@@ -1,23 +1,22 @@
-type KeyValuePair<K, V> = {
-  key: K;
-  value: V;
+// type mapping
+type Person = {
+  name: string;
+  age: number;
 };
 
-let keyValuePairs = { key: 1, value: "value" };
-let keyValuePairs1: KeyValuePair<string, number> = { key: "abc", value: 100 };
+type ReadOnly<T> = {
+  readonly [K in keyof T]: T[K];
+};
 
-function findByAgeOrName<T extends { age: number; name: string }>(
-  ar: T[],
-  field: "age" | "name",
-  value: unknown
-): T[] {
-  return ar.filter((item: any) => item[field] === value);
-}
+type Optional<T> = {
+  [K in keyof T]?: T[K];
+};
+const person: Person = {
+  name: "Jojo",
+  age: 30,
+};
 
-const data = [
-  { name: "Jane", age: 20, gender: "female" },
-  { name: "John", age: 25, gender: "male" },
-  { name: "Doe", age: 30, gender: "male" },
-];
-
-const result = findByAgeOrName(data, "age", 20);
+const readOnlyPerson: ReadOnly<Person> = {
+  name: "Jojo",
+  age: 30,
+};
