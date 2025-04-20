@@ -1,27 +1,31 @@
-//union
-function kgToGr(kg: number | string) {
-  //Narrowing type
-  if (typeof kg === "string") {
-    kg = parseFloat(kg);
-  }
-  return kg * 1000;
-}
-
-let a: 50 | 75 | 100 | "abc"; //a can have only 50, 75 or 100 or "abc"
-
-//intersection types
-type A = { a: string };
-type B = { b: number };
-type C = A & B; // C has both properties a and b
-let obj: C = { a: "hello", b: 42 };
-type D = string & number; // D is never, as str and num are incopatible tipes
-
-type Product = {
+type Person = {
   id: number;
-  name: string;
-  price: number;
+  age: number;
+  name?: string;
 };
 
-let productKey: keyof Product; //id name or price
-productKey = "id" //valid 
-// productKey = "bubu" //unvalid
+const people: Person[] = [
+  { id: 1, age: 25 },
+  { id: 2, age: 30 },
+  { id: 3, age: 35 },
+];
+
+function findPersonById(people: Person[], id: number): Person | undefined {
+  return people.find((person) => person.id === id);
+}
+const person = findPersonById(people, 20);
+console.log(person?.name?.length);
+function getPersonName(person: Person): string {
+  return person.name ?? "Vasya"; //Use nullish coalescing operator
+}
+
+function getPersonNamee({ name = "Mudila" }: Person): string {
+  return name;
+}
+
+console.log(getPersonName(people[0]));
+
+function speed(speed?: number) {
+  console.log(speed ?? 30); 
+}
+speed();
