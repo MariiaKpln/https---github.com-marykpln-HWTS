@@ -1,31 +1,23 @@
-type Person = {
-  id: number;
-  age: number;
-  name?: string;
+type KeyValuePair<K, V> = {
+  key: K;
+  value: V;
 };
 
-const people: Person[] = [
-  { id: 1, age: 25 },
-  { id: 2, age: 30 },
-  { id: 3, age: 35 },
+let keyValuePairs = { key: 1, value: "value" };
+let keyValuePairs1: KeyValuePair<string, number> = { key: "abc", value: 100 };
+
+function findByAgeOrName<T extends { age: number; name: string }>(
+  ar: T[],
+  field: "age" | "name",
+  value: unknown
+): T[] {
+  return ar.filter((item: any) => item[field] === value);
+}
+
+const data = [
+  { name: "Jane", age: 20, gender: "female" },
+  { name: "John", age: 25, gender: "male" },
+  { name: "Doe", age: 30, gender: "male" },
 ];
 
-function findPersonById(people: Person[], id: number): Person | undefined {
-  return people.find((person) => person.id === id);
-}
-const person = findPersonById(people, 20);
-console.log(person?.name?.length);
-function getPersonName(person: Person): string {
-  return person.name ?? "Vasya"; //Use nullish coalescing operator
-}
-
-function getPersonNamee({ name = "Mudila" }: Person): string {
-  return name;
-}
-
-console.log(getPersonName(people[0]));
-
-function speed(speed?: number) {
-  console.log(speed ?? 30); 
-}
-speed();
+const result = findByAgeOrName(data, "age", 20);
