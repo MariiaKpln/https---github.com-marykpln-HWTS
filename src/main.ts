@@ -1,22 +1,18 @@
-// type mapping
-type Person = {
-  name: string;
-  age: number;
-};
+// HW30
 
-type ReadOnly<T> = {
-  readonly [K in keyof T]: T[K];
-};
+const data = [
+  { name: "Jane", age: 20, gender: "female" },
+  { name: "John", age: 25, gender: "male" },
+  { name: "Doe", age: 30, gender: "male" },
+];
 
-type Optional<T> = {
-  [K in keyof T]?: T[K];
-};
-const person: Person = {
-  name: "Jojo",
-  age: 30,
-};
+function find<T extends { [key: string]: unknown }>(
+  array: T[],
+  value: T[keyof T]
+): T[] {
+  return array.filter((item) =>
+    Object.values(item).some((val) => val === value)
+  );
+}
 
-const readOnlyPerson: ReadOnly<Person> = {
-  name: "Jojo",
-  age: 30,
-};
+console.log(find(data, "male"));
