@@ -1,33 +1,15 @@
-// HW30
+import Rectangle from "./Rectangle";
+import Shape from "./Shape";
+import Square from "./Square";
+import Container from "./Container";
 
-const data = [
-  { name: "Jane", age: 20, gender: "female" },
-  { name: "John", age: 25, gender: "male" },
-  { name: "Doe", age: 30, gender: "male" },
-];
+const shape: Shape = new Rectangle(3, 4);
+console.log(shape.width, shape.square(), shape.perimeter());
 
-function find<T extends { [key: string]: unknown }>(
-  array: T[],
-  value: T[keyof T]
-): T[] {
-  return array.filter((item) =>
-    Object.values(item).some((val) => val === value)
-  );
-}
+const shape2: Shape = new Square(4);
+console.log(shape2.height, shape2.perimeter(), shape2.square());
+const shape3: Shape = new Container([shape, shape2]);
 
-console.log(find(data, "male"));
-
-type MyObj<T> = {
-  [P in keyof T]?: T[P];
-};
-
-function update<T>(original: T, updates: MyObj<T>): T {
-  const objNew = { ...original, ...updates };
-  for (let key in objNew) {
-    original[key] = objNew[key];
-  }
-}
-
-console.log(
-  update({ id: 123, age: 25, city: "Lod" }, { age: 26, city: "Rehovot" })
-);
+shape3 instanceof Container && console.log(shape3.size());
+shape2 instanceof Container && console.log(shape2.size());
+shape instanceof Container && console.log(shape.size());
