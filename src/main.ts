@@ -16,3 +16,18 @@ function find<T extends { [key: string]: unknown }>(
 }
 
 console.log(find(data, "male"));
+
+type MyObj<T> = {
+  [P in keyof T]?: T[P];
+};
+
+function update<T>(original: T, updates: MyObj<T>): T {
+  const objNew = { ...original, ...updates };
+  for (let key in objNew) {
+    original[key] = objNew[key];
+  }
+}
+
+console.log(
+  update({ id: 123, age: 25, city: "Lod" }, { age: 26, city: "Rehovot" })
+);
