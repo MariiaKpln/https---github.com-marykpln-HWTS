@@ -1,15 +1,42 @@
-import Rectangle from "./Rectangle";
-import Shape from "./Shape";
-import Square from "./Square";
-import Container from "./Container";
+//TODO
+//Write simple test based on console.log functionality for testing Store class methods
 
-const shape: Shape = new Rectangle(3, 4);
-console.log(shape.width, shape.square(), shape.perimeter());
+import Store from "./Store";
 
-const shape2: Shape = new Square(4);
-console.log(shape2.height, shape2.perimeter(), shape2.square());
-const shape3: Shape = new Container([shape, shape2]);
+//For example T msay be class Employee like
+class Employee {
+  constructor(public id: string, public name: string, public salary: number) {}
+}
+const store = new Store<Employee>();
+console.log(store);
+//some test methods
+store.add(new Employee("empl1", "Sara", 5000));
+store.add(new Employee("empl2", "Bob", 6000));
+store.add(new Employee("empl3", "Hana", 4000));
 
-shape3 instanceof Container && console.log(shape3.size());
-shape2 instanceof Container && console.log(shape2.size());
-shape instanceof Container && console.log(shape.size());
+console.log("After adding employees:", store);
+
+try {
+  store.add(new Employee("empl1", "Duplicate Sara", 7000));
+} catch (error) {
+  console.error("Expected error on duplicate add:", (error as Error).message);
+}
+
+// Получаем сотрудника по id
+const bob = store.getById("empl2");
+console.log("Found employee by id (empl2):", bob);
+
+// Ищем сотрудников с зарплатой выше 4500
+const highEarners = store.find({
+  test(emp: Employee): boolean {
+    return emp.salary > 4500;
+  },
+});
+console.log("Employees with salary > 4500:", highEarners);
+
+// delete
+const removed = store.remove("empl2");
+console.log("Removed employee:", removed);
+
+const checkBob = store.getById("empl2");
+console.log("Check Bob after removal (should be undefined):", checkBob);
